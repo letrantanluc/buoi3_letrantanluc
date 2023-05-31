@@ -1,1 +1,53 @@
-*
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Book List</title>
+    <th:block th:replace="layout :: link-css"></th:block>
+</head>
+<body>
+<div class="container">
+    <main>
+        <h1>EDIT BOOK</h1>
+        <div class="row g-5">
+            <div class="col-md-12">
+                <form action="#" th:action="@{/books/edit}" th:object="${book}" method="POST">
+                    <input type="hidden" th:field="*{id}">
+                    <div class="row g-3">
+                        <div class="col-12">
+                            <label for="title" class="form-label">Title</label>
+                            <input type="text" th:field="*{title}" class="form-control" id="title" placeholder="" required="">
+                            <span class="text-danger" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></span>
+                        </div>
+                        <div class="col-12">
+                            <label for="author" class="form-label">Author</label>
+                            <input type="text" th:field="*{author}" class="form-control" id="author" placeholder="" required="">
+                        </div>
+                        <div class="col-12">
+                            <label for="price" class="form-label">Price</label>
+                            <input type="text" th:field="*{price}" class="form-control" id="price" placeholder="" required="">
+                            <span class="text-danger" th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></span>
+                        </div>
+                        <div class="col-12">
+                            <label for="category" class="form-label">Category</label>
+                            <select th:field="*{category.id}" class="form-control" id="category" name="category.id">
+                                <option th:each="cate : ${categories}" th:value="${cate.id}"
+                                        th:text="${cate.name}" th:selected="${book.category.id == cate.id}">
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <input type="submit" class="btn btn-primary" value="Save">
+                </form>
+                <br>
+                <a th:href="@{/books}">Back to List</a>
+            </div>
+        </div>
+    </main>
+    <th:block th:replace="layout :: footer"></th:block>
+</div>
+</body>
+</html>

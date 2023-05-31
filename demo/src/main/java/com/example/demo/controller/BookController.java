@@ -66,7 +66,12 @@ public class BookController {
             return "not-found";
         }
     }
-
+//    @PostMapping("/edit")
+//    public String editBook(@ModelAttribute("book") Book updatedBook)
+//    {
+//        bookService.updateBook(updatedBook);
+//        return "redirect:/books";
+//    }
     @PostMapping("/edit")
     public String editBook(@Valid @ModelAttribute("book") Book updatedBook, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {

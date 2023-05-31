@@ -29,70 +29,61 @@ public class CategoryController {
         return "category/list";
     }
 
-//    @GetMapping("/add")
-//    public String addCategoryForm(Model model){
-//
-//        model.addAttribute("category",new Category());
-//
-//        return "category/add";
-//    }
+    @GetMapping("/add")
+    public String addCategoryForm(Model model){
 
-//    @PostMapping("/add")
-//    public String addBook(@ModelAttribute("book") Book book){
-//        bookService.addBook(book);
-//        return "redirect:/books";
-//    }
+        model.addAttribute("category",new Category());
 
-//    @PostMapping("/add")
-//    public String addBook (@Valid @ModelAttribute("book") Book book, BindingResult bindingResult, Model model) {
-//        //Trường hợp có lỗi ràng buộc thì trả lại view add
-//        if (bindingResult.hasErrors()) {
-//
-//            model.addAttribute("categories", categoryService.getAllCategories());
-//            return "book/add";
-//        }
-//        bookService.addBook(book);
-//        return "redirect:/books";
-//    }
-//
-//    @GetMapping("/edit/{id}")
-//    public String editBook(@PathVariable("id") Long id, Model model) {
-//        Book book = bookService.getBookById(id);
-//        if (book != null) {
-//            model.addAttribute("book", book);
-//            model.addAttribute("categories", categoryService.getAllCategories());
-//            return "book/edit";
-//        } else {
-//            return "not-found";
-//        }
-//    }
-//
-//    @PostMapping("/edit")
-//    public String editBook(@Valid @ModelAttribute("book") Book updatedBook, BindingResult bindingResult, Model model) {
-//        if (bindingResult.hasErrors()) {
-//            model.addAttribute("categories", categoryService.getAllCategories());
-//            return "book/edit";
-//        }
-//
-//        Book bookToUpdate = bookService.getBookById(updatedBook.getId());
-//        if (bookToUpdate != null) {
-//            // Thực hiện cập nhật thông tin của đầu sách
-//            bookToUpdate.setTitle(updatedBook.getTitle());
-//            bookToUpdate.setAuthor(updatedBook.getAuthor());
-//            bookToUpdate.setPrice(updatedBook.getPrice());
-//            bookToUpdate.setCategory(updatedBook.getCategory());
-//
-//            bookService.updateBook(bookToUpdate);
-//        }
-//
-//        return "redirect:/books";
-//    }
-//
-//    @GetMapping("/delete/{id}")
-//    public String deleteBook(@PathVariable("id") Long id)
-//    {
-//        Book book = bookService.getBookById(id);
-//        bookService.deleteBook(id);
-//        return "redirect:/books";
-//    }
+        return "category/add";
+    }
+
+
+
+    @PostMapping("/add")
+    public String addCategory (@Valid @ModelAttribute("category") Category category, BindingResult bindingResult, Model model) {
+        //Trường hợp có lỗi ràng buộc thì trả lại view add
+        if (bindingResult.hasErrors()) {
+
+            model.addAttribute("categories", categoryService.getAllCategories());
+            return "category/add";
+        }
+        categoryService.addCategory(category);
+        return "redirect:/categories";
+    }
+
+    @GetMapping("/edit/{id}")
+    public String editCategory(@PathVariable("id") Long id, Model model) {
+        Category category = categoryService.getCategoryById(id);
+        if (category != null) {
+            model.addAttribute("category", category);
+            return "category/edit";
+        } else {
+            return "not-found";
+        }
+    }
+
+    @PostMapping("/edit")
+    public String editCategory(@Valid @ModelAttribute("category") Category updatedCategory, BindingResult bindingResult, Model model) {
+        if (bindingResult.hasErrors()) {
+            return "category/edit";
+        }
+
+        Category categoryToUpdate = categoryService.getCategoryById(updatedCategory.getId());
+        if (categoryToUpdate != null) {
+            // Thực hiện cập nhật thông tin của đầu sách
+            categoryToUpdate.setName(updatedCategory.getName());
+
+            categoryService.updateCategory(categoryToUpdate);
+        }
+
+        return "redirect:/categories";
+    }
+
+    @GetMapping("/delete/{id}")
+    public String deleteCategory(@PathVariable("id") Long id)
+    {
+        Category category = categoryService.getCategoryById(id);
+        categoryService.deleteCategory(id);
+        return "redirect:/categories";
+    }
 }
